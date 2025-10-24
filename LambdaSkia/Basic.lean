@@ -207,27 +207,27 @@ theorem subsume_colorfilter g style c transform clip f (H: f Transparent = Trans
   simp
   grind
 
-theorem luma_to_diff_clip g1 g2 tfrm clip shape1 (H1: shape1 (0.0, 0.0, 0.0, 1.0) = shape1 Transparent):
+theorem luma_to_diff_clip g1 g2 tfrm clip f (H1: f (0.0, 0.0, 0.0, 1.0) = f Transparent):
   SaveLayer EmptyLayer
             (Draw (Draw EmptyLayer g1 (id, fun _ => (1.0, 1.0, 1.0, 1.0)) (1.0, SrcOver, id) tfrm clip)
                   g2 (id, fun _ => (0.0, 0.0, 0.0, 1.0)) (1.0, SrcOver, id) tfrm clip)
-            (1.0, SrcOver, shape1)
+            (1.0, SrcOver, f)
   =
   SaveLayer EmptyLayer
             (Draw EmptyLayer g1 (id, fun _ => (1.0, 1.0, 1.0, 1.0)) (1.0, SrcOver, id) tfrm (difference clip g2))
-            (1.0, SrcOver, shape1) := by
+            (1.0, SrcOver, f) := by
   have H2 : SrcOver (1.0, 1.0, 1.0, 1.0) (0.0, 0.0, 0.0, 1.0) = (0.0, 0.0, 0.0, 1.0) := by grind
   simp
   grind
 
-theorem luma_to_diff_clip2 l shape1 g2 tfrm clip f (H1: f (0.0, 0.0, 0.0, 1.0) = f Transparent):
+theorem luma_to_diff_clip2 l g1 g2 tfrm clip f (H1: f (0.0, 0.0, 0.0, 1.0) = f Transparent):
   SaveLayer l
-            (Draw (Draw EmptyLayer shape1 (id, fun _ => (1.0, 1.0, 1.0, 1.0)) (1.0, SrcOver, id) tfrm clip)
+            (Draw (Draw EmptyLayer g1 (id, fun _ => (1.0, 1.0, 1.0, 1.0)) (1.0, SrcOver, id) tfrm clip)
                   g2 (id, fun _ => (0.0, 0.0, 0.0, 1.0)) (1.0, SrcOver, id) tfrm clip)
             (1.0, SrcOver, f)
   =
   SaveLayer l
-            (Draw EmptyLayer shape1 (id, fun _ => (1.0, 1.0, 1.0, 1.0)) (1.0, SrcOver, id) tfrm (difference clip g2))
+            (Draw EmptyLayer g1 (id, fun _ => (1.0, 1.0, 1.0, 1.0)) (1.0, SrcOver, id) tfrm (difference clip g2))
             (1.0, SrcOver, f) := by
   have H2 : SrcOver (1.0, 1.0, 1.0, 1.0) (0.0, 0.0, 0.0, 1.0) = (0.0, 0.0, 0.0, 1.0) := by grind
   simp
@@ -235,9 +235,9 @@ theorem luma_to_diff_clip2 l shape1 g2 tfrm clip f (H1: f (0.0, 0.0, 0.0, 1.0) =
 
 theorem dstin_masks shape style color tfrm clip gradient
         (Hopaque : forall pt, isOpaque (gradient pt)):
-  SaveLayer (Draw (EmptyLayer) shape1 (style, fun _ => color) (1.0, SrcOver, id) tfrm clip)
-            (Draw (EmptyLayer) shape1 (style, gradient) (1.0, SrcOver, id) tfrm clip)
+  SaveLayer (Draw (EmptyLayer) shape (style, fun _ => color) (1.0, SrcOver, id) tfrm clip)
+            (Draw (EmptyLayer) shape (style, gradient) (1.0, SrcOver, id) tfrm clip)
             (1.0, DstIn, id)
   =
-  Draw (EmptyLayer) shape1 (style, fun _ => color) (1.0, SrcOver, id) tfrm clip := by
+  Draw (EmptyLayer) shape (style, fun _ => color) (1.0, SrcOver, id) tfrm clip := by
   grind
