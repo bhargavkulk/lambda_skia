@@ -1,10 +1,10 @@
 FROM ubuntu:24.04
 
 ARG REPO_URL=https://github.com/pl-utah/mu_skia.git
-ARG REPO_REF=main
+ARG REPO_REF=oopsla-artifact-v1
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl git ca-certificates python3 libegl1 libgl1 \
+    && apt-get install -y --no-install-recommends curl git ca-certificates python3 libegl1 libgl1 vim \
     && rm -rf /var/lib/apt/lists/* \
     && curl --proto '=https' --tlsv1.2 -sSf https://elan.lean-lang.org/elan-init.sh \
        | sh -s -- -y --default-toolchain none \
